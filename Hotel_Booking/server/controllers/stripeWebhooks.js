@@ -19,6 +19,7 @@ export const stripeWebhook = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  // THIS is the correct logic
   if (event.type === "checkout.session.completed") {
 
     const session = event.data.object;
@@ -30,8 +31,8 @@ export const stripeWebhook = async (req, res) => {
       paymentMethod: "Stripe"
     });
 
-    console.log("Booking marked as paid:", bookingId);
+    console.log("Booking updated:", bookingId);
   }
 
-  res.json({ received: true });
+  res.status(200).json({ received: true });
 };
