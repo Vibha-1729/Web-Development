@@ -97,9 +97,9 @@ npm install
 
 ---
 
-## Configure Environment Variables
-# Backend Environment Variables
-- 
+# Configure Environment Variables
+## Backend Environment Variables
+
 - PORT=3000
 - MONGODB_URI=your_mongodb_connection_string
 
@@ -112,7 +112,7 @@ npm install
 
 - CLERK_SECRET_KEY=your_clerk_secret_key
 
-# Frontend Environment Variables
+## Frontend Environment Variables
 
 - VITE_BACKEND_URL=http://localhost:3000
 - VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
