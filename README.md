@@ -42,51 +42,98 @@ https://quickstay1-chi.vercel.app/
 
 # 🛠 Tech Stack
 
-## Frontend
-- React
-- React Router
-- Tailwind CSS
-- Axios
-- React Hot Toast
+### 🎨 Frontend
+- ⚛️ **React**
+- 🔀 **React Router**
+- 🎨 **Tailwind CSS**
+- 🌐 **Axios**
+- 🔔 **React Hot Toast**
 
-## Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
+### ⚙️ Backend
+- 🟢 **Node.js**
+- 🚂 **Express.js**
+- 🍃 **MongoDB**
+- 📦 **Mongoose**
 
-## Authentication
-- Clerk Authentication
+### 🔐 Authentication
+- 🔑 **Clerk Authentication**
 
-## Payments
-- Stripe Checkout
-- Stripe Webhooks
+### 💳 Payments
+- 💳 **Stripe Checkout**
+- 🔔 **Stripe Webhooks**
 
-## Media Storage
-- Cloudinary
+### 🖼 Media Storage
+- ☁️ **Cloudinary**
 
-## Deployment
-- Vercel
-
----
-
-# 🏗 System Architecture
-- User (React Frontend)
-REST APIs (Express Backend)
-
-- MongoDB Database
-Stripe Payment Gateway
-Cloudinary Image Storage
+### 🚀 Deployment
+- ▲ **Vercel**
 
 ---
 
-# ⚙️ Installation & Setup
+# 💻 Running the Project Locally
 
-## Clone Repository
+Follow these steps to run the project on your local machine.
+
+---
+
+# Clone the Repository
 
 ```bash
 git clone https://github.com/Vibha-1729/Hotel_Booking_System.git
 cd Hotel_Booking_System
 ```
----
+# Install Dependencies
+- Backend
+```bash
+cd server
+npm install
 ```
+
+- Frontend
+```bash
+cd client
+npm install
+```
+
+---
+
+## Configure Environment Variables
+# Backend Environment Variables
+- 
+- PORT=3000
+- MONGODB_URI=your_mongodb_connection_string
+
+- STRIPE_SECRET_KEY=your_stripe_secret_key
+- STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+- CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+- CLOUDINARY_API_KEY=your_cloudinary_api_key
+- CLOUDINARY_API_SECRET=your_cloudinary_secret
+
+- CLERK_SECRET_KEY=your_clerk_secret_key
+
+# Frontend Environment Variables
+
+- VITE_BACKEND_URL=http://localhost:3000
+- VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+- VITE_CURRENCY=$
+
+---
+
+## Run the Backend Server
+```bash
+cd server
+npm run server
+```
+
+## Run the Frontend Application
+```bash
+cd client
+npm run dev
+```
+  
+
+
+
+
+
