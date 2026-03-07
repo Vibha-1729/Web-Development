@@ -71,16 +71,12 @@ https://quickstay1-chi.vercel.app/
 ---
 
 # 🏗 System Architecture
-User (React Frontend)
-│
-▼
+- User (React Frontend)
 REST APIs (Express Backend)
-│
-▼
-MongoDB Database
-│
-├── Stripe Payment Gateway
-└── Cloudinary Image Storage
+
+- MongoDB Database
+Stripe Payment Gateway
+Cloudinary Image Storage
 
 ---
 
@@ -92,18 +88,5 @@ MongoDB Database
 git clone https://github.com/Vibha-1729/Hotel_Booking_System.git
 cd Hotel_Booking_System
 ```
-
 ---
-# Install Dependencies
-
-Backend
-``` bash
-cd server
-npm install
-```
-
-Frontend
-``` bash
-cd client
-npm install
 ```
