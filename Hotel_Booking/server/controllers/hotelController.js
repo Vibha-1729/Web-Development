@@ -6,11 +6,11 @@ export const registerHotel = async (req,res)=>{
 
     const {name,address,contact,city} = req.body;
 
-    if(!req.user){
+    if(!req.auth?.userId){
       return res.json({success:false,message:"User not authenticated"});
     }
 
-    const owner = req.auth().userId;  // <-- THIS IS THE IMPORTANT PART
+    const owner = req.auth.userId;  // <-- THIS IS THE IMPORTANT PART
 
     // check if hotel already exists
     const hotel = await Hotel.findOne({owner});
@@ -33,6 +33,15 @@ export const registerHotel = async (req,res)=>{
 
   }catch(error){
     console.log(error);
+    res.json({success:false,message:error.message});
+  }
+}
+
+export const getHotels = async (req,res)=>{
+  try{
+    const hotels = await Hotel.find();
+    res.json({success:true,hotels});
+  }catch(error){
     res.json({success:false,message:error.message});
   }
 }
