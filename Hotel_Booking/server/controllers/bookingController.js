@@ -107,7 +107,7 @@ export const createBooking = async (req, res) => {
 export const getUserBookings = async (req, res) => {
     try {
         const user = req.user._id;
-        const bookings = await Booking.find({ user }).populate("room hotel").sort({ createdAt: -1 })
+        const bookings = await Booking.find({ user }).populate("room hotel user").sort({ createdAt: -1 })
         res.json({ success: true, bookings })
     } catch (error) {
         res.json({ success: false, message: "Failed to fetch bookings" })
@@ -116,7 +116,7 @@ export const getUserBookings = async (req, res) => {
 
 export const getHotelBookings = async (req, res) => {
     try {
-        const hotel = await Hotel.findOne({ owner: req.auth.userId });
+        const hotel = await Hotel.findOne({ owner: req.user._id });
         if (!hotel) {
             return res.json({ success: false, message: "No Hotel found" });
         }
@@ -128,7 +128,8 @@ export const getHotelBookings = async (req, res) => {
 
         res.json({ success: true, dashboardData: { totalBookings, totalRevenue, bookings } })
     } catch (error) {
-        res.json({ success: false, message:"Failed to fetch bookings"})
+        console.log(error)
+        res.json({ success: false, message:error.message })
     }
 }
 

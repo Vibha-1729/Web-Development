@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Title from '../../components/Title'
 import { assets } from '../../assets/assets'
 import { useAppContext } from '../../context/AppContext'
+import { toast } from 'react-hot-toast'
 
 const Dashboard = () => {
 
-    const { currency, user, getToken, toast, axios }= useAppContext();
+    const { currency, user, getToken, axios } = useAppContext();
 
     const [dashboardData, setDashboardData] = useState({
         bookings: [],
@@ -19,22 +20,24 @@ const Dashboard = () => {
                 headers:
                     { Authorization: `Bearer ${await getToken()}` }
             })
+            console.log(data)
 
             if (data.success) {
-                setDashboardData(data.dashboardData)      
-            } else{
+                setDashboardData(data.dashboardData)
+            } else {
                 toast.error(data.message)
             }
         } catch (error) {
-            toast.error(error.message)
+            console.log(error)
+            toast.error(error?.response?.data?.message || error.message)
         }
     }
 
-    useEffect(()=>{
-        if (user){
+    useEffect(() => {
+        if (user) {
             fetchDashboardData();
         }
-    },[user])
+    }, [user])
 
     return (
         <div>
@@ -78,7 +81,7 @@ const Dashboard = () => {
                         {dashboardData.bookings.map((item, index) => (
                             <tr key={index}>
                                 <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>
-                                    {item.user.username}
+                                    {item.user?.username || "User"}
                                 </td>
                                 <td className='py-3 px-4 text-gray-700 border-t border-gray-300 max-sm:hidden'>
                                     {item.room.roomType}
