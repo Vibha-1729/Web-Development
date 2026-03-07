@@ -101,14 +101,11 @@ npm install
 ## Backend Environment Variables
 
 - MONGODB_URI=your_mongodb_connection_string
-
 - STRIPE_SECRET_KEY=your_stripe_secret_key
 - STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
-
 - CLOUDINARY_CLOUD_NAME=your_cloudinary_name
 - CLOUDINARY_API_KEY=your_cloudinary_api_key
 - CLOUDINARY_API_SECRET=your_cloudinary_secret
-
 - CLERK_SECRET_KEY=your_clerk_secret_key
 
 ## Frontend Environment Variables
