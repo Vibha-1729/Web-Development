@@ -11,7 +11,7 @@ const Loader = () => {
         if(nextUrl){
             setTimeout(()=>{
                 navigate(`/${nextUrl}`)
-            },8000)
+            },2000)
         }
     },[nextUrl])
 
