@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import NavBar from '../../components/Hotelowner/NavBar'
+import Navbar from '../../components/Hotelowner/Navbar'
 import Sidebar from '../../components/Hotelowner/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { useAppContext } from '../../context/AppContext'
@@ -15,7 +15,7 @@ const Layout = () => {
 
   return (
     <div className='min-h-screen flex flex-col'>
-        <NavBar />
+        <Navbar />
         <div className='flex h-full'>
             <Sidebar />
             <div className="flex-grow ml-10 pt-8 px-8">
