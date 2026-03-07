@@ -100,7 +100,6 @@ npm install
 # Configure Environment Variables
 ## Backend Environment Variables
 
-- PORT=3000
 - MONGODB_URI=your_mongodb_connection_string
 
 - STRIPE_SECRET_KEY=your_stripe_secret_key
