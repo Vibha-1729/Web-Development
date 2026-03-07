@@ -1,18 +1,73 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { assets, facilityIcons, roomCommonData, roomsDummyData } from '../assets/assets';
+import { assets, facilityIcons, roomCommonData} from '../assets/assets';
 import StarRating from '../components/StarRating';
+import { useAppContext } from '../context/AppContext';
+import toast from 'react-hot-toast';
 
 const RoomDetails = () => {
     const { id } = useParams();
+    const {rooms, getToken, axios, navigate}=useAppContext();
     const [room, setRoom] = useState(null);
     const [mainImage, setMainImage] = useState(null);
+    const [checkInDate, setCheckInDate] = useState(null);
+    const [checkOutDate, setCheckOutDate] = useState(null);
+    const [guests, setGuests]=useState(1);
+    const [isAvailable, setIsAvailable]=useState(false);
+    
+    const checkAvailability = async ()=>{
+        try {
+            // Check if Check-In Date is greater than Check-Out Date
+            if(checkInDate>=checkOutDate){
+                toast.error('Check-In Date should be less than Check-Out Date')
+                return;
+            }
+            const {data} = await axios.post('/api/bookings/check-availability',
+                {room:id, checkInDate, checkOutDate}
+            )
+            if(data.success){
+                if(data.isAvailable){
+                    setIsAvailable(true)
+                    toast.success('Room is available')
+                }else{
+                    setIsAvailable(false)
+                    toast.error('Room is not available')
+                }
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    // onSubmitHandler function to check availability & book the room
+    const onSubmitHandler = async(e)=>{
+        try{
+            e.preventDefault();
+            if(!isAvailable){
+                return checkAvailability();
+            }else{
+                const{data}=await axios.post('api/bookings/book', {room:id, checkInDate, checkOutDate, guests, paymentMethod: "Pay At Hotel"},
+                    {headers:{Authorization:`Bearer ${await getToken()}`}})
+                    if(data.success){
+                        toast.success(data.message)
+                        navigate('/my-bookings')
+                    }else{
+                        toast.error(data.message)
+                    }
+            }
+        }
+        catch(error){
+            toast.error(error.message)
+        }
+    }
 
     useEffect(() => {
-        const room = roomsDummyData.find((room) => room._id === (id))
+        const room = rooms.find((room) => room._id === (id))
         room && setRoom(room)
         room && setMainImage(room.images[0])
-    }, [])
+    }, [rooms])
 
     return room && (
         <div className='py-28 md:py-35 px-4 md:px-16 lg:px-24 xl:px-32 '>
@@ -70,27 +125,30 @@ const RoomDetails = () => {
             </div>
 
             {/* {CheckIn CheckOut Form} */}
-            <form className='flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-6 rounded-xl 
+            <form onSubmit={onSubmitHandler} className='flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-6 rounded-xl 
         mx-auto mt-16 max-w-6xl'>
                 <div className='flex flex-col flex-wrap md:flex-row items-start md:items-cnter gap-4 md:gap-10 text-gray-500'>
                     <div className='flex flex-col'>
                         <label htmlFor="checkInDate" className='font-medium'>Check-In</label>
-                        <input type="date" id='checkInDate' placeholder='Check-In' className='border rounded-lg px-3 py-2 w-full md:w-auto outline-none focus:ring-2 focus:ring-orange-500 transition-all' required />
+                        <input onChange={(e)=>setCheckInDate(e.target.value)} min={new Date().toISOString().split('T')[0]} type="date" id='checkInDate' placeholder='Check-In' className='border rounded-lg px-3 py-2 w-full md:w-auto outline-none focus:ring-2 focus:ring-orange-500 transition-all' required />
                     </div>
 
+                    <div className= 'w-px h-15 bg-gray-300/70 max-md:hidden'></div>
                     <div className='flex flex-col'>
                         <label htmlFor="checkOutDate" className='font-medium'>Check-Out</label>
-                        <input type="date" id='checkOutDate' placeholder='Check-Out' className='border rounded-lg px-3 py-2 w-full md:w-auto outline-none focus:ring-2 focus:ring-orange-500 transition-all' required />
+                        <input onChange={(e)=>setCheckOutDate(e.target.value)} min={checkInDate} disabled={!checkInDate} type="date" id='checkOutDate' placeholder='Check-Out' className='border rounded-lg px-3 py-2 w-full md:w-auto outline-none focus:ring-2 focus:ring-orange-500 transition-all' required />
                     </div>
-
+                    
+                    <div className= 'w-px h-15 bg-gray-300/70 max-md:hidden'></div>
                     <div className='flex flex-col'>
                         <label htmlFor="guests" className='font-medium'>Guests</label>
-                        <input type="number" id='guests' placeholder='0' className='border rounded-lg px-3 py-2 w-full md:w-auto outline-none focus:ring-2 focus:ring-orange-500 transition-all' required />
+                        <input onChange={(e)=>setGuests(e.target.value)} value={guests} type="number" id='guests' 
+                        placeholder='0' className='border rounded-lg px-3 py-2 w-full md:w-auto outline-none focus:ring-2 focus:ring-orange-500 transition-all' required />
                     </div>
 
                 </div>
                 <button type='submit' className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-all cursor-pointer self-start mt-4 md:mt-4" >
-                    Check Availability
+                    {isAvailable? "Book Now":"Check Availability"}
                 </button>
             </form>
 
